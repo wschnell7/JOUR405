@@ -28,7 +28,7 @@ crimes <- read_csv("https://raw.githubusercontent.com/dwillis/jour405/refs/heads
 ### Task 4: Calculate the total crime rate for each year (picking our unit!)
 
 ```{r}
-crimes |> mutate(total_rate = grand_total/population * 10000)
+crimes <- crimes |> mutate(total_rate = grand_total/population * 10000)
 ```
 
 
@@ -45,7 +45,7 @@ crimes_with_rates <- crimes |> mutate(violent_rate = violent_crime_total/populat
 
 Write a few sentences about what you found in the data. What years had the highest crime rates? What years had the lowest crime rates? Does the pattern match your expectations?
 
-
+The total crime rate was the highest in Maryland in 1980 which was about 663. Violent crime rate was the highest in the early 1990s as the seven highest years with violent crimes was from 1990-1996. 2020 was the ear with the lowest total crime rate. I expected this to be the case because it was the height of the Covid pandemic so everyone was inside in lockdown so there was less crime that was being committed. 
 
 
 When you are done, save your work, switch to GitHub Desktop, then add, commit and push your changes to GitHub and submit the URL of the notebook in ELMS.
