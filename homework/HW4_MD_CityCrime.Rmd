@@ -9,6 +9,10 @@ In this assignment, we will be working with a dataset of total crimes reported b
 You will need to load the tidyverse library and the janitor library
 
 ```{r}
+library(tidyverse)
+load(tidyverse)
+library(janitor)
+load(janitor)
 ```
 
 Then you'll load the data from the web. The URL for the data is: https://raw.githubusercontent.com/dwillis/jour405/refs/heads/main/data/md_cities_crime_2019_2020.csv. You will create a dataframe called `md_cities` that contains the data from this URL.
@@ -16,19 +20,26 @@ Then you'll load the data from the web. The URL for the data is: https://raw.git
 ### Task 2: Load the Data
 
 ```{r}
+md_cities <- read_csv("https://raw.githubusercontent.com/dwillis/jour405/refs/heads/main/data/md_cities_crime_2019_2020.csv")
 ```
 ### Task 3: Calculating Rates
 
 Calculate violent and property crime rates for each city for both years using `mutate()`. You'll create four new columns: `violent_rate_2019`, `property_rate_2019`, `violent_rate_2020`, and `property_rate_2020`. You'll need to figure out the proper unit rate, given that there are varying populations. There's no perfect choice; choose the one that works best for you. Save the results to a new dataframe called `md_cities_rates`.
 
 ```{r}
+md_cities_rates <- md_cities |>
+  mutate(violent_rate_2019 <- mean(violent2019),
+         property_rate_2019 <- mean(property2019),
+         violent_rate_2020 <- mean(violent2020),
+         property_rate_2020 <- mean(property2020))
+
 ```
 
 ### Task 4: Describe the Rates
 
 Examine the new dataframe, `md_cities_rates`, by clicking on it in the Environment tab in RStudio and sorting by the rate columns. Write a couple of sentences about the results, comparing and contrasting the cities with the highest rates (both violent and property) in 2019 and 2020. Do you see any patterns? What does this tell you about crime in Maryland cities? What's the story here?
 
-ANSWER HERE
+PRoperty rates in 2019 had the highest reported cases on average with 339 cases. The lowest rate was violent crimes in 2020 with about 93 reported cases on average. One thing that surprised me about the data was the Baltimore was the city that had the highest crimes reported for each category. The amount of crimes recorded by Baltimore were so high they could potentially be outliers to the rest of the data reported. 
 
 
 ### Task 5: Calculate Percentage Change
@@ -36,19 +47,22 @@ ANSWER HERE
 Let's add two percentage change columns to your dataframe: one for violent crime rates and one for property crime rates. You'll calculate the percentage change between 2019 and 2020 for each city. Save the results to a new dataframe called `md_cities_change`.
 
 ```{r}
+md_cities_change <- md_cities |>
+  mutate(property_rate_change = (property2020 - property2019 / property2019) * 100,
+    violent_rate_change = (violent2020 - violent2019 / violent2019) * 100)
 ```
 
 ### Task 7: Describe Percentage Changes
 
 Look at the `md_cities_change` dataframe by clicking on it in the Environment tab in RStudio. Write a couple of sentences describing the percentage change results. What's more interesting here, the patterns or the outliers? What's the story in the data?
 
-ANSWER HERE
+I think the outliers are much more interesting here than the patterns. There are some cities that saw crimes rates change from 2019 to 2020 that changed by hundreds of cases, causing the percent change to be a high number. Outliers also affected the data like Baltimore for example. Baltimore has the most crimes reported and no other city comes close which cause Baltimore to skew the data towards higher crime rates. 
 
 ### Task 8: Tell the Best Story
 
 Write up a lede and nutgraf of a story with the _best_ story idea you've found in this assignment. The lede should be a single sentence that summarizes the most important information in the data. The nutgraf should be a paragraph that provides more context and explains why the data is important.
 
-ANSWER HERE
+Baltimore has the most crimes reported in all of Maryland accroding to data from 2019 and 2020. According to the data, Baltimore has had the most property and violent crime cases out of 137 cities in Maryland. To put this into perspective, in 2020, Baltimore had 18,540 reported property crime cases. Gaithursburg had the second most in 2020 with 1,264. This shows that data from Baltimore acts as an outlier to the rest of the cities in Maryland that reported their crime data for these years. 
 
 ### Task 9: Save Your Work and Put it on GitHub
 
