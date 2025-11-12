@@ -1,0 +1,31 @@
+---
+title: "final_project"
+author: "Wesley Schnell"
+date: "2025-11-12"
+output: html_document 
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+```
+
+
+```{r}
+Tuition <- read.csv("https://raw.githubusercontent.com/wellsdata/Jour405_student_repo_fall_2025/refs/heads/main/project/college_scorecard_2021_2024.csv")
+```
+
+```{r}
+Tuition |> summarize(mean(X2023_24_tuitionfee_in), sd(X2023_24_tuitionfee_in), min(X2023_24_tuitionfee_in), max(X2023_24_tuitionfee_in))
+
+```
+
+**hypothesis**
+
+Does school enrollment cause an increase in tuition? 
+The most important columns to look at is enrollment from 2023-2024 and tuition from 2023-2024 for each school. This will give me the most recent date for each school and will help me get a good understanding of whether my hypothesis is true. Some information missing is whether the schools listed are private or public. This is important because it can have an effect on how much the tuition is. Another important piece of information is how big the school is and ho high it ranks in academics. It will be important to see if schools with great academics have higher tuition or if a school has a big campus how does that affect enrollment and tuition. 
+
+Some questions I have is how to calculate statistics for each column because every column has some schools that are N/A so it cannot compute the statistics. 
