@@ -15,17 +15,64 @@ library(tidyverse)
 
 
 ```{r}
-Tuition <- read.csv("https://raw.githubusercontent.com/wellsdata/Jour405_student_repo_fall_2025/refs/heads/main/project/college_scorecard_2021_2024.csv")
+Tuition <- read_csv("https://raw.githubusercontent.com/wellsdata/Jour405_student_repo_fall_2025/refs/heads/main/project/college_scorecard_2021_2024.csv")
 ```
 
 ```{r}
-Tuition |> summarize(mean(X2023_24_tuitionfee_in), sd(X2023_24_tuitionfee_in), min(X2023_24_tuitionfee_in), max(X2023_24_tuitionfee_in))
+summary(Tuition$`2023_24_undergrad_enrollment`)
+
 
 ```
 
 **hypothesis**
+Null: Schools with greater than median enrollment increases in 2023 didn't increase tuition above the average tuition levels that year
 
-Does school enrollment cause an increase in tuition? 
+Alternative: Schools with greater than median enrollment increases in 2023 increased tuition above the average tuition levels that year
+
+I chose this data set because I thought it would be very interesting to take a deep look into college tuition and how many students attend the collge to see if there is any relationship between the data. More specifically, looking at undergaduate enrollment for each year and seeing how it compares to tuition each year and see if there is any changes that occur over time. 
+
+All of the data regarding college tuition since 2021 is from from the United States Department of Education College Scorecard.The data set Provides a tidied subset of the US College Scorecard data set, containing institutional characteristics, enrollment, student aid, costs, and student outcomes at institutions of higher education in the United States. The data set o0nly includes colleges that participate in Title IV federal financial aid programs.  
+
 The most important columns to look at is enrollment from 2023-2024 and tuition from 2023-2024 for each school. This will give me the most recent date for each school and will help me get a good understanding of whether my hypothesis is true. Some information missing is whether the schools listed are private or public. This is important because it can have an effect on how much the tuition is. Another important piece of information is how big the school is and ho high it ranks in academics. It will be important to see if schools with great academics have higher tuition or if a school has a big campus how does that affect enrollment and tuition. 
 
+The range of undergraduate enrollment in the data set for 2023-2024 is 50,057. 
+
 Some questions I have is how to calculate statistics for each column because every column has some schools that are N/A so it cannot compute the statistics. 
+
+```{r}
+
+t.test(high_enroll$`2023_24_tuitionfee_in`,mu = mean_tuition_23_24)
+
+
+
+```
+When looking at the results from the t-test, the calculated p-value is 0.4248. This p-value means that we fail to reject the null hypothesis and there is no real statistical evidence that high-enrollment schools increased tuition as enrollment increased. This also means that higher enrollment schools have higher tuition due to random chance becasue there is no statistical evidence to prove that this senario is true. 
+
+```{r}
+
+anova_result <- aov(`2023_24_tuitionfee_in` ~ enroll_group, data = Tuition)
+summary(anova_result)
+
+
+
+
+
+```
+Based on the results of the Anova test, the p-value calculated is 0.176 which is greater than 0.05 which means there again is not statistical evidence to prove that the null hypothesis is true. Since we fail to reject the null hypothesis, the data does not show that schools with a higher enrollemnt lead to that school having a higher tuition. 
+
+```{r}
+
+ggplot(avg_data, aes(x = year, y = value, color = type, group = type)) +
+  geom_line(size = 1.2) +
+  geom_point(size = 3) +
+  labs(
+    title = "Average Tuition and Enrollment Over Time",
+    x = "Academic Year",
+    y = "Value",
+    color = "Variable"
+  ) +
+  theme_minimal()
+
+
+```
+The graph illustrates that the average undergraduate enrollment since 2021 has stayed around the same while tuition has slightly increased over the years. This is because there is no statistical evidence that increased enrollment increases tuition because the graph shows slight increased enrollment 
