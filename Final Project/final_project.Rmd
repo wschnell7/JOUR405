@@ -38,41 +38,40 @@ The most important columns to look at is enrollment from 2023-2024 and tuition f
 The range of undergraduate enrollment in the data set for 2023-2024 is 50,057. 
 
 Some questions I have is how to calculate statistics for each column because every column has some schools that are N/A so it cannot compute the statistics. 
+```{r}
+model <- lm(`2023_24_tuitionfee_in` ~ `2023_24_undergrad_enrollment`, data = Tuition)
+
+summary(model)
+```
+Based on the results of the regression test, there is no significant statistical evidence that shows a relationship between in-state tuition and undergraduate enrollment. there are two variables that shows this. The p-value and the adjusted r-squared value. the p-value in this case is 0.106 and the adjusted r-squared value is 0.01148. The p-value of 0.106 means tells us that there is no significant evidecne to prove that the null hypothesis is true. Since the p-value is much greater than the significant code of 0.05, this leads us to the conclusion that increased in-state tuition doesn't affect undergraduate enrollment. When looking at the adjusted r-squared value of 0.01148, this shows that the relationship between in-state tuition and undergraduate enrollment is very week and there is little correlation between the variables. 
 
 ```{r}
 
-t.test(high_enroll$`2023_24_tuitionfee_in`,mu = mean_tuition_23_24)
+selected_vars <- Tuition |>
+  select(
+    `2022_23_tuitionfee_out`,
+    `2022_23_undergrad_enrollment`
+    
+  )
 
+cor(selected_vars, use = "complete.obs")
 
 
 ```
-When looking at the results from the t-test, the calculated p-value is 0.4248. This p-value means that we fail to reject the null hypothesis and there is no real statistical evidence that high-enrollment schools increased tuition as enrollment increased. This also means that higher enrollment schools have higher tuition due to random chance becasue there is no statistical evidence to prove that this senario is true. 
+This correlation test shows the correlation between out-of-state tuition. It shows that the correlation between the two variables is weak because the value of the relationship is 0.07922489 which shows that there is a weak positive relationship between the two variables. This is clear because when I was looking at the data set, schools with high out of state tuition has a high value of undergraduate enrollment. For example, schools like Johns Hopkins University, University of Maryland-College Park and University of Virginia-Main Campus all have high out-of-state tuition and undergraduate enrollment. This leads to the fact that an increae in out of state tuition doesn't have a direct effect on undergraduate enrollment. 
 
 ```{r}
 
-anova_result <- aov(`2023_24_tuitionfee_in` ~ enroll_group, data = Tuition)
-summary(anova_result)
-
-
-
-
-
-```
-Based on the results of the Anova test, the p-value calculated is 0.176 which is greater than 0.05 which means there again is not statistical evidence to prove that the null hypothesis is true. Since we fail to reject the null hypothesis, the data does not show that schools with a higher enrollemnt lead to that school having a higher tuition. 
-
-```{r}
-
-ggplot(avg_data, aes(x = year, y = value, color = type, group = type)) +
-  geom_line(size = 1.2) +
-  geom_point(size = 3) +
-  labs(
-    title = "Average Tuition and Enrollment Over Time",
-    x = "Academic Year",
-    y = "Value",
-    color = "Variable"
-  ) +
-  theme_minimal()
-
+Tuition |>
+  ggplot(aes(x = `2023_24_tuitionfee_in`, y = `2023_24_undergrad_enrollment`)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE, color = "red") +
+  labs(x = "Tuition", y = "Undergraduate Enrollment", title = "How Does In-State Tuition Affect Enrollment?")
 
 ```
-The graph illustrates that the average undergraduate enrollment since 2021 has stayed around the same while tuition has slightly increased over the years. This is because there is no statistical evidence that increased enrollment increases tuition because the graph shows slight increased enrollment 
+This graph shows the linear regression line for the relationship between in-state tuition and undergraduate enrollment. There is no real trend on the graph that represents the correlation between the two variables. There are some outlier on the graph which are the points that are way above the liner regression line. These are the much larger schools like University of Maryland, Liberty University and Northern Virginia Community College. Since most data points fall off the liner regression line, it represents the weak relationship between the variables that was determined based of the adjusted r-squared value. Also, since the data points are widespread throughout the graph, it shows that there is a high standard deviation due to the widespread data. 
+
+
+STORY PITCH:
+
+A possible story pitch is to compare in and out of state tuition for each school and compare how it has affect undergraduate enrollment. Some schools to look at are the bigger ones like University of Maryland College Park and Liberty University. Using the data provided will be a big help for developing the story. A reporting plan for the story is to reach out to to students who attend the schools from in the state and out of the state. Talking to them will give good insight on their decision to attend the school and see if tuition impacted their decision at all. I would also reach out to admission offices at each school to see if they realize any trends between in school and out of school students based on tuition. Reaching out to both students and workers at the school will give two strong viewpoints and will give a good idea to see if tuition affects undergraduate enrollment. I will talk about my finding based on the statistics that I calculated and see if they can relate to the trends that I found based off the data set. 
